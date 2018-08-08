@@ -11,6 +11,7 @@ Feedback and suggestions welcome using the issue tracker.
 * [Bidirectional Forwarding Detection (BFD)](bfd.conf)
 * [DePaul-specific prefix-lists](depaul.conf)
 * [Firewall filters](firewall.conf)
+* [iBGP configuration](ibgp.conf)
 * [BGP LOCAL_PREF policy definitions](localpref.conf)
 * [Ingress loopback RE protection filtering](loopback.conf)
 * [BGP prefix limits](prefix-limit.conf)
