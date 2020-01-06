@@ -9,6 +9,7 @@ environment.
 Feedback and suggestions welcome using the issue tracker.
 
 * [Bidirectional Forwarding Detection (BFD)](bfd.conf)
+* [BGP Monitoring Protocol (BMP)](bmp.conf)
 * [DePaul-specific prefix-lists](depaul.conf)
 * [Firewall filters](firewall.conf)
 * [iBGP configuration](ibgp.conf)
