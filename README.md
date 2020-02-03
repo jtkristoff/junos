@@ -16,4 +16,5 @@ Feedback and suggestions welcome using the issue tracker.
 * [BGP LOCAL_PREF policy definitions](localpref.conf)
 * [Ingress loopback RE protection filtering](loopback.conf)
 * [BGP prefix limits](prefix-limit.conf)
+* [Route Origin Validation](rov.conf)
 * [BGP route sanitization](sanitize.conf)
