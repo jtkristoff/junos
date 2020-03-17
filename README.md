@@ -12,6 +12,7 @@ Feedback and suggestions welcome using the issue tracker.
 * [BGP Monitoring Protocol (BMP)](bmp.conf)
 * [DePaul-specific prefix-lists](depaul.conf)
 * [Firewall filters](firewall.conf)
+* [Flows/IPFIX configuration](flows.conf)
 * [iBGP configuration](ibgp.conf)
 * [BGP LOCAL_PREF policy definitions](localpref.conf)
 * [Ingress loopback RE protection filtering](loopback.conf)
