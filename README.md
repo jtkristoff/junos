@@ -19,3 +19,4 @@ Feedback and suggestions welcome using the issue tracker.
 * [BGP prefix limits](prefix-limit.conf)
 * [Route Origin Validation](rov.conf)
 * [BGP route sanitization](sanitize.conf)
+* [Junos pprade template text](upgrade.template.txt)

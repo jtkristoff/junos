@@ -1,0 +1,161 @@
+      Subject: Router OS m.nRx.y Software Upgrade Review
+ Install Date: 1970-01-01
+ Component(s): Router BFG (rtr-loc-code-func)
+Back-out plan: re-install a.bRc.d, see back-out procedure below
+  Reviewed by: juser
+      Version: 1970-01-01-00
+
+    Installed: a.bRc.d
+               January 1, 1970
+               package-a.bRc.d-train.tgz
+               md5: 1234567890abcdef1234567890abcdef
+               sha1: abcdef0123456789abcdef0123456789abcdef01
+
+      Planned: m.nRx.y
+               January 1, 1971
+               package-m.nRx.y-train.tgz
+               md5: f0123456789abcdef0123456789abcde
+               sha1: 9abcdef0123456789abcdef0123456789abcdef0
+
+
+Summary
+-------
+The border gateway router (rtr-loc-code-func) is in need of a software
+upgrade and line card upgrade.  It is currently running a.bRc.d.  In
+order to keep current and move to the version of software recommended by
+the vendor, it is advised that we upgrade to Router OS m.nRx.y.  We also
+have a new line card that provides faster link interface capability that
+we wish to install during this change.  An estimated outage window of 30
+minutes is required.
+
+
+Installation Procedure
+----------------------
+1.  Login to the router from a console connection.  Start a shell with
+    the following command:
+
+    > start shell
+
+2.  The new software has already been copied to foo.bar.baz:/images and
+    and to rtr-loc-code-func:/var/tmp.  Verify the current software on
+    the device is the one you expect.  The md5 and sha1 output by the
+    following commands should match the md5 and sha1 hashes listed for
+    this code release above:
+
+    % md5 /var/tmp/package-m.nRx.y-train.tgz
+    % sha1 /var/tmp/package-m.nRx.y-train.tgz
+
+4.  Verify that the back-out software exists and matches the md5 hash
+    listed above:
+
+    % md5 /var/tmp/package-a.bRc.d-train.tgz
+    % sha1 /var/tmp/package-a.bRc.d-train.tgz
+
+5.  Exit from the shell.  Then from the CLI, ensure no one else is
+    logged into the router and making changes:
+
+    % exit
+    > show system users
+
+6.  If configuration changes have been made in the last 7 days,
+    skip this step.  Otherwise, create a rescue configuration based
+    on the current, running and presumably stable configuration:
+
+    > request system configuration rescue save
+ 
+7.  Take down the internal and external BGP sessions so that Internet
+    traffic will be rerouted over alternate paths during the maintenance
+    window.  This will help minimize traffic/route flapping, packet
+    loss, and errant usage patterns.
+
+    # deactivate protocols bgp
+    # commit confirm    
+
+8.  Run the upgrade commands (there are only two commands shown below,
+    the second command is wrapped in this document in order to be more
+    easily printed/read):
+
+    > request system snapshot
+    > request system software add validate reboot
+        /var/tmp/package-a.bRc.d-train.tgz
+
+9.  Power down the router and install the line card in the [XXX] slot
+    then restart the router.
+
+10. Review the configuration and note any discrepancies or deprecated
+    configuration statements.  Validate that the system is operating
+    properly by verifying routes, connectivity, management tools, and
+    network measurement statistics showing all status as normal.  Make
+    any necessary config changes as detailed below in the "Technical
+    Notes" section.
+
+11. Reactivate the BGP sessions once the changes have been successfully
+    deployed.
+
+    # activate protocols bgp
+    # commit confirm
+
+
+Back-out Procedures
+-------------------
+1.  From the Router OS CLI, run the following commands (command shown is
+    all one line, it is wrapped in this document in order to be more
+    easily printed/read):
+
+    > request system software add validate reboot
+       /var/tmp/package-a.bRc.d-train.tgz
+
+2.  Power down the router and remove the line card if necessary.
+
+
+Summary of Relevant Code Issues, Fixes and Features of m.nRx.y
+----------------------------------------------------------------------
+.------- minor (.), major (-) or critical (!) issue
+|.------ upgrade fixes (*), upgrade doesn't fix ($)
+||.----- configuration change or new feature (+)
+|||
+vvv
+-*+  New fancy dandy line card (Model No. AB-EFG-10G) support
+.*+  RADIUS functionality over IPv6 support
+.*+  ICMP and ICMPv6 generation rate is configurable
+.*+  Firewall filter can prevent or allow datagram fragmentation
+.*+  Support for BMPv3
+.*+  show version output changed to show consistent system version
+.*   show route command might have led to rpd crash (PR/12345)
+.*   various NTP related vulnerabilities patched (PR/99999)
+.$   License check may consume high CPU (PR/929292)
+
+
+Technical Notes
+---------------
+Remove unnecessary IP multicast related configuration statements:
+
+  # delete routing-options rib inet.2
+  # delete protocols msdp
+  # delete protocols pim
+
+We should plan on performing an upgrade after the Spring 1972 quarter
+if possible.  Release m.n will reach end of support on July 1, 1972.
+ 
+Useful commands to use to review connectivity before and after the
+upgrade:
+
+  show bgp summary
+  show chassis alarms
+  show chassis environment
+  show chassis feb
+  show chassis routing-engine
+  show interfaces brief
+  show msdp
+  show ospf neighbor
+  show pim neighbors
+  show route summary
+  show version
+
+References
+----------
+1.  Router OS m.n Sotware Documentation
+    <http://www.example.net/docs//m.n/>
+
+2.  Vendor Technical Support
+    +1 800 555-1212 <support@example.net>
