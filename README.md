@@ -1,5 +1,9 @@
 # Junos configuration templates
 
+**WARNING**: These templates are far from perfect and have weaknesses that
+I never bothered to fix. I am not currently maintaining them, but will
+leave them here for posterity. January 2021 - jtk
+
 This public repository contains standard Junos configuration templates.
 These configurations are applicable to our environment and maybe no
 other.  Only the fool would blindly copy and use these templates
